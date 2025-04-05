@@ -1,0 +1,27 @@
+name: Daily FX Analysis
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # 毎時0分に実行（日本時間では9時間後）
+  workflow_dispatch:  # 手動実行も可能にする
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run FX script
+        env:
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
+        run: untitled1.py  # ←ここをアップしたファイル名に変えてね
